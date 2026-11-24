@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Tu lectura personal | SOY SHAMAN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,600;1,500&family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crema: #FBF8F1;
+    --caja: #F4EBDD;
+    --linea: #E6DCCB;
+    --oro: #B28A43;
+    --oro-osc: #85652F;
+    --marron: #51443A;
+    --tinta: #3A2F27;
+    --suave: #81766C;
+    --fs: 19px;
+    --serif: "Cormorant", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--crema);
+    color: var(--tinta);
+    font-family: var(--sans);
+    font-size: var(--fs);
+    line-height: 1.65;
+    padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px));
+  }
+  .marco {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 22px 10px;
+  }
+  /* Portada */
+  .cabecera { text-align: center; padding: 18px 0 8px; }
+  .cabecera svg { width: 74px; height: 50px; }
+  .marca { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; letter-spacing: .28em; color: var(--oro-osc); margin: 6px 0 0; }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: 2.5rem; line-height: 1.1; margin: 14px 0 6px; color: var(--tinta); }
+  .para { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 1.5rem; color: var(--marron); margin: 0; }
+  .para b { font-style: normal; font-weight: 600; color: var(--tinta); display: block; font-size: 1.9rem; margin-top: 2px; }
+  .divisor { display: flex; align-items: center; gap: 12px; margin: 26px 0; color: var(--oro); }
+  .divisor::before, .divisor::after { content: ""; flex: 1; height: 1px; background: var(--oro); opacity: .7; }
+  .divisor svg { width: 40px; height: 12px; }
+  /* Contenido */
+  h2 {
+    display: inline-block;
+    font-family: var(--serif); font-weight: 600; font-size: 1.5rem; line-height: 1.2;
+    background: var(--oro-osc); color: #fff;
+    padding: 6px 18px 8px; border-radius: 10px; margin: 30px 0 14px;
+  }
+  h3 { font-family: var(--serif); font-weight: 600; font-size: 1.45rem; line-height: 1.25; text-align: center; margin: 30px 0 12px; color: var(--marron); }
+  p { margin: 0 0 14px; }
+  .leer { cursor: pointer; border-radius: 8px; transition: background .25s; }
+  .leer.activo { background: rgba(178,138,67,.16); box-shadow: -6px 0 0 rgba(178,138,67,.16), 6px 0 0 rgba(178,138,67,.16); }
+  .interp { border-left: 3px solid var(--oro); padding-left: 14px; margin-bottom: 16px; }
+  .apertura { font-style: italic; color: var(--marron); }
+  .cartas { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0 0 16px; }
+  .carta { background: var(--caja); border: 1px solid var(--linea); border-radius: 10px; padding: 8px 12px; text-align: center; font-weight: 700; font-size: .78em; color: var(--oro-osc); min-width: 30%; flex: 1 1 30%; max-width: 100%; }
+  .carta small { display: block; font-weight: 400; font-style: italic; color: var(--oro); font-size: .9em; }
+  .calc { display: flex; gap: 14px; align-items: center; background: var(--caja); border: 1px solid var(--oro); border-radius: 14px; padding: 14px; margin: 0 0 16px; }
+  .calc .num { flex: none; width: 58px; height: 58px; border-radius: 50%; background: var(--oro-osc); color: #fff; font-family: var(--serif); font-weight: 600; font-size: 2rem; display: grid; place-items: center; }
+  .calc .tx { font-size: .85em; color: var(--marron); }
+  .calc .tx strong { display: block; font-family: var(--serif); font-size: 1.35em; color: var(--oro-osc); margin-top: 4px; }
+  .decreto { background: var(--caja); border: 1px solid var(--oro); border-radius: 18px; padding: 22px 18px; margin: 28px 0; text-align: center; outline: 1px solid var(--linea); outline-offset: -6px; }
+  .decreto svg { width: 46px; height: 32px; }
+  .decreto h4 { font-family: var(--serif); font-weight: 600; font-size: 1.45rem; color: var(--oro-osc); margin: 4px 0 10px; }
+  .decreto .linea { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 1.4rem; line-height: 1.35; color: var(--tinta); margin: 0 0 6px; }
+  .decreto .nota { font-style: italic; font-size: .8em; color: var(--suave); margin: 12px 0 0; }
+  .despedida { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 1.55rem; line-height: 1.35; text-align: center; color: var(--oro-osc); margin: 26px 0 10px; }
+  .legal { text-align: center; font-size: .7em; color: var(--suave); margin: 0 0 8px; }
+  /* Cierre */
+  .cierre { text-align: center; margin: 34px 0 10px; }
+  .cierre .firma { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 2.6rem; line-height: 1; color: var(--tinta); margin: 8px 0 2px; }
+  .cierre .soy { letter-spacing: .3em; font-size: .7em; color: var(--marron); margin: 0 0 18px; }
+  .btn-reservar { display: inline-block; background: var(--oro); color: var(--tinta); border: 1px solid var(--oro-osc); font-weight: 700; font-size: 1rem; text-decoration: none; padding: 15px 30px; border-radius: 999px; }
+  .btn-reservar:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid var(--oro-osc); outline-offset: 3px; }
+  /* Reproductor fijo */
+  .reproductor {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    background: rgba(251,248,241,.97); border-top: 1px solid var(--oro);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .reproductor .in { max-width: 720px; margin: 0 auto; }
+  .fila { display: flex; gap: 10px; }
+  .btn-grande {
+    flex: 1; font-family: var(--sans); font-weight: 700; font-size: 1.08rem; letter-spacing: .01em;
+    background: var(--oro-osc); color: #fff; border: 0; border-radius: 14px; padding: 16px 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px;
+  }
+  .btn-grande svg { width: 18px; height: 18px; fill: currentColor; }
+  .btn-sec { flex: none; background: var(--caja); color: var(--oro-osc); border: 1px solid var(--oro); border-radius: 14px; padding: 0 16px; font-weight: 700; font-size: .95rem; min-height: 56px; cursor: pointer; font-family: var(--sans); }
+  .ajustes { display: none; margin-top: 12px; gap: 12px; flex-wrap: wrap; align-items: center; font-size: .78rem; color: var(--marron); }
+  .ajustes.abierto { display: flex; }
+  .ajustes label { display: flex; flex-direction: column; gap: 4px; flex: 1 1 140px; }
+  .ajustes select { font-family: var(--sans); font-size: .95rem; padding: 10px; border-radius: 10px; border: 1px solid var(--oro); background: #fff; color: var(--tinta); }
+  .tam { display: flex; gap: 8px; align-items: end; }
+  .tam button { font-family: var(--serif); font-weight: 600; background: #fff; border: 1px solid var(--oro); color: var(--oro-osc); border-radius: 10px; width: 46px; height: 44px; font-size: 1.1rem; cursor: pointer; }
+  .aviso { text-align: center; padding: 60px 22px; font-size: 1.05rem; color: var(--marron); }
+  .sin-voz { font-size: .8rem; color: var(--suave); margin-top: 8px; text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .leer { transition: none; } }
+</style>
+</head>
+<body>
+<main class="marco" id="app">
+  <div class="aviso" id="cargando">Preparando tu lectura&hellip;</div>
+</main>
+
+<div class="reproductor" id="reproductor" hidden>
+  <div class="in">
+    <div class="fila">
+      <button class="btn-grande" id="btnPlay" type="button" aria-live="polite"></button>
+      <button class="btn-sec" id="btnAjustes" type="button" aria-expanded="false" aria-controls="ajustes">Ajustes</button>
+    </div>
+    <div class="ajustes" id="ajustes">
+      <label>Voz
+        <select id="selVoz"></select>
+      </label>
+      <label>Velocidad
+        <select id="selVel">
+          <option value="0.85">Lenta</option>
+          <option value="1" selected>Normal</option>
+          <option value="1.15">Rápida</option>
+        </select>
+      </label>
+      <div class="tam">
+        <label style="flex:none">Tamaño de letra
+          <span style="display:flex;gap:8px">
+            <button type="button" id="menos" aria-label="Letra más pequeña">A-</button>
+            <button type="button" id="mas" aria-label="Letra más grande">A+</button>
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="sin-voz" id="sinVoz" hidden>Tu navegador no puede leer en voz alta. Prueba abrir este enlace en Chrome o Safari.</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var API = "https://fxmgydfhuznxrxsggqlg.supabase.co/functions/v1/lectura";
+  var WA = "https://wa.me/584160650749?text=" + encodeURIComponent("Hola José, estoy interesado en reservar una consulta personal de $12. ¿Me pasas los datos de pago?");
+  var LOTO = ["M 0 0 C -8.51 5.53 -18.11 0.35 -21.34 -6.12 C -15.18 -9.89 -4.29 -9.2 0 0 Z","M 0 0 C 4.29 -9.2 15.18 -9.89 21.34 -6.12 C 18.11 0.35 8.51 5.53 0 0 Z","M 0 0 C -12.33 -0.65 -18.07 -12.61 -16.62 -21.28 C -7.86 -20.58 2.35 -12.12 0 0 Z","M 0 0 C -2.35 -12.12 7.86 -20.58 16.62 -21.28 C 18.07 -12.61 12.33 -0.65 0 0 Z","M 0 0 C -10.35 -9 -7.2 -23.4 0 -30 C 7.2 -23.4 10.35 -9 0 0 Z"];
+  var NS = "http://www.w3.org/2000/svg";
+
+  var app = document.getElementById("app");
+  var cola = [];            // fragmentos que se leen en voz alta: { el, texto }
+  var idx = 0, hablando = false, voz = null, vel = 1;
+  var soporte = ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window);
+
+  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function lotoSvg() {
+    var s = document.createElementNS(NS, "svg"); s.setAttribute("viewBox", "-30 -34 60 38"); s.setAttribute("aria-hidden", "true");
+    LOTO.forEach(function (d) { var p = document.createElementNS(NS, "path"); p.setAttribute("d", d); p.setAttribute("fill", "#B28A43"); p.setAttribute("stroke", "#FBF8F1"); p.setAttribute("stroke-width", ".7"); s.appendChild(p); });
+    return s;
+  }
+  function divisor() {
+    var d = el("div", "divisor"); d.setAttribute("aria-hidden", "true");
+    var s = document.createElementNS(NS, "svg"); s.setAttribute("viewBox", "-20 -6 40 12");
+    [[-12, 2.6], [0, 4.2], [12, 2.6]].forEach(function (a) {
+      var r = a[1], p = document.createElementNS(NS, "path");
+      p.setAttribute("d", "M " + a[0] + " " + (-r) + " L " + (a[0] + r * .22) + " " + (-r * .22) + " L " + (a[0] + r) + " 0 L " + (a[0] + r * .22) + " " + (r * .22) + " L " + a[0] + " " + r + " L " + (a[0] - r * .22) + " " + (r * .22) + " L " + (a[0] - r) + " 0 L " + (a[0] - r * .22) + " " + (-r * .22) + " Z");
+      p.setAttribute("fill", "#B28A43"); s.appendChild(p);
+    });
+    d.appendChild(s); return d;
+  }
+
+  /* ---------- Texto del informe a bloques ---------- */
+  function partirCartas(l) {
+    var s = l.replace(/^Cartas?:\s*/i, "");
+    var p = s.split(/\s*[·;|]\s*/).map(function (x) { return x.trim(); }).filter(Boolean);
+    if (p.length < 2) p = s.split(/,\s+/).map(function (x) { return x.trim(); }).filter(Boolean);
+    return p;
+  }
+  function parsear(texto) {
+    var limpio = texto
+      .replace(/\s*={3}\s*HOJA\s*={3}\s*/gi, "\n\n")
+      .replace(/^\*\*(.+?)\*\*\s*$/gm, "### $1")
+      .replace(/\*/g, "")
+      .replace(/^(#{2,3})\s*$/gm, "")
+      .replace(/([^\n])[ \t]+(Recuerda siempre)/i, "$1\n$2")
+      .replace(/([^\n])[ \t]+(Esta lectura es una guía)/i, "$1\n$2")
+      .replace(/^(#{2,3} .+)$/gm, "\n\n$1\n\n");
+    var b = limpio.split(/\n{2,}/).map(function (x) { return x.trim(); }).filter(Boolean);
+    var out = [], modo = "";
+    for (var i = 0; i < b.length; i++) {
+      var t = b[i];
+      if (t.indexOf("## ") === 0) {
+        var tit = t.slice(3).trim();
+        if (/decreto/i.test(tit)) {
+          var lineas = [], notas = [], j = i + 1;
+          for (; j < b.length; j++) {
+            if (b[j].indexOf("## ") === 0 || b[j].indexOf("### ") === 0) break;
+            var ls = b[j].split("\n").map(function (x) { return x.trim(); }).filter(Boolean);
+            if (!lineas.length) lineas = ls; else notas.push(ls.join(" "));
+          }
+          i = j - 1; out.push({ tipo: "decreto", lineas: lineas, nota: notas.join(" ") }); modo = ""; continue;
+        }
+        modo = /apertura/i.test(tit) ? "apertura" : "";
+        out.push({ tipo: "h2", t: tit }); continue;
+      }
+      if (t.indexOf("### ") === 0) {
+        var preg = t.slice(4).trim(), cartas = [], cuerpo = [], k = i + 1;
+        for (; k < b.length; k++) {
+          if (b[k].indexOf("## ") === 0 || b[k].indexOf("### ") === 0) break;
+          var sueltas = [];
+          b[k].split("\n").forEach(function (ln) { var l = ln.trim(); if (!l) return; if (/^Cartas?:/i.test(l)) cartas = partirCartas(l); else sueltas.push(l); });
+          if (sueltas.length) cuerpo.push(sueltas.join(" "));
+        }
+        i = k - 1; out.push({ tipo: "pregunta", t: preg, cartas: cartas, cuerpo: cuerpo }); continue;
+      }
+      var buf = [];
+      var vaciar = function () { if (buf.length) { out.push({ tipo: "p", t: buf.join(" "), modo: modo }); buf = []; } };
+      t.split("\n").map(function (x) { return x.trim(); }).filter(Boolean).forEach(function (l) {
+        if (/no tiene fronteras/i.test(l)) { vaciar(); out.push({ tipo: "despedida", t: l.replace(/^["“”]+|["“”]+$/g, "") }); }
+        else if (/^Esta lectura es una guía/i.test(l)) { vaciar(); out.push({ tipo: "legal", t: l }); }
+        else if (/^C[aá]lculo:/i.test(l)) { vaciar(); out.push({ tipo: "calc", t: l }); }
+        else buf.push(l);
+      });
+      vaciar();
+    }
+    return out;
+  }
+
+  /* ---------- Lectura en voz alta: fragmentos cortos ---------- */
+  function fragmentos(txt) {
+    var frases = txt.replace(/\s+/g, " ").trim().match(/[^.!?…]+[.!?…]*/g) || [txt], res = [], cur = "";
+    frases.forEach(function (f) {
+      f = f.trim(); if (!f) return;
+      if ((cur + " " + f).trim().length > 220 && cur) { res.push(cur); cur = f; } else cur = (cur + " " + f).trim();
+    });
+    if (cur) res.push(cur);
+    return res;
+  }
+  function registrar(elemento, hablado) {
+    elemento.classList.add("leer");
+    var inicio = cola.length;
+    fragmentos(hablado).forEach(function (f) { cola.push({ el: elemento, texto: f }); });
+    elemento.addEventListener("click", function () { if (soporte) { idx = inicio; empezar(); } });
+  }
+  function nombreCarta(c) { return c.replace(/\s*\(invertida\)\s*$/i, "").trim() + (/invertida/i.test(c) ? ", invertida" : ""); }
+
+  /* ---------- Construir la página ---------- */
+  function construir(datos) {
+    app.textContent = "";
+    var cab = el("header", "cabecera");
+    cab.appendChild(lotoSvg());
+    cab.appendChild(el("p", "marca", "SOY SHAMAN"));
+    cab.appendChild(el("h1", null, "Tu lectura personal"));
+    var para = el("p", "para", "Preparada para"); para.appendChild(el("b", null, datos.nombre)); cab.appendChild(para);
+    app.appendChild(cab);
+    app.appendChild(divisor());
+
+    var bloques = parsear(datos.texto);
+    bloques.forEach(function (b) {
+      if (b.tipo === "h2") { var h = el("h2", null, b.t); app.appendChild(h); registrar(h, b.t + "."); }
+      else if (b.tipo === "pregunta") {
+        var h3 = el("h3", null, b.t); app.appendChild(h3); registrar(h3, b.t);
+        if (b.cartas.length) {
+          var fila = el("div", "cartas");
+          b.cartas.forEach(function (c) {
+            var inv = /invertida/i.test(c), d = el("div", "carta", c.replace(/\s*\(invertida\)\s*$/i, "").trim());
+            if (inv) d.appendChild(el("small", null, "invertida"));
+            fila.appendChild(d);
+          });
+          app.appendChild(fila);
+          registrar(fila, "Las cartas son: " + b.cartas.map(nombreCarta).join(", ") + ".");
+        }
+        b.cuerpo.forEach(function (c) { var p = el("p", "interp", c); app.appendChild(p); registrar(p, c); });
+      }
+      else if (b.tipo === "calc") {
+        var m = b.t.match(/N[uú]mero de vida:?\s*(\d+)/i) || b.t.match(/=\s*(\d+)\D*$/);
+        var num = m ? m[1] : "";
+        var op = b.t.replace(/^C[aá]lculo:\s*/i, "").replace(/\s*N[uú]mero de vida:.*$/i, "").trim();
+        var c = el("div", "calc");
+        if (num) c.appendChild(el("div", "num", num));
+        var tx = el("div", "tx", op.replace(/→/g, "»"));
+        if (num) tx.appendChild(el("strong", null, "Número de vida: " + num));
+        c.appendChild(tx); app.appendChild(c);
+        registrar(c, "Cálculo. " + op.replace(/→|»/g, ", luego ") + (num ? ". Número de vida: " + num + "." : ""));
+      }
+      else if (b.tipo === "decreto") {
+        var box = el("section", "decreto");
+        box.appendChild(lotoSvg()); box.appendChild(el("h4", null, "Tu decreto diario"));
+        b.lineas.forEach(function (l) { box.appendChild(el("p", "linea", l)); });
+        if (b.nota) box.appendChild(el("p", "nota", b.nota));
+        app.appendChild(box);
+        registrar(box, "Tu decreto diario. " + b.lineas.join(" ") + (b.nota ? " " + b.nota : ""));
+      }
+      else if (b.tipo === "despedida") { var d = el("p", "despedida", b.t); app.appendChild(d); registrar(d, b.t); }
+      else if (b.tipo === "legal") { app.appendChild(el("p", "legal", b.t)); }
+      else if (b.tipo === "p") { var p2 = el("p", b.modo === "apertura" ? "apertura" : null, b.t.replace(/^["“”]+|["“”]+$/g, "")); app.appendChild(p2); registrar(p2, p2.textContent); }
+    });
+
+    app.appendChild(divisor());
+    var cierre = el("section", "cierre");
+    cierre.appendChild(el("p", null, "Con aprecio,"));
+    cierre.appendChild(el("p", "firma", "José Vegas"));
+    cierre.appendChild(el("p", "soy", "SOY SHAMAN"));
+    cierre.appendChild(el("p", null, "Profundiza en tu proceso mediante una consulta personal con José Vegas."));
+    var a = el("a", "btn-reservar", "Reservar una consulta personal"); a.href = WA; a.target = "_blank"; a.rel = "noopener";
+    cierre.appendChild(a);
+    app.appendChild(cierre);
+    iniciarReproductor();
+  }
+
+  /* ---------- Reproductor ---------- */
+  var btnPlay, selVoz, selVel;
+  var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+  var ICON_PAUSA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+  function pintarBoton() {
+    if (hablando) btnPlay.innerHTML = ICON_PAUSA + "<span>Pausar</span>";
+    else if (idx > 0 && idx < cola.length) btnPlay.innerHTML = ICON_PLAY + "<span>Continuar escuchando</span>";
+    else btnPlay.innerHTML = ICON_PLAY + "<span>Escuchar mi lectura</span>";
+    btnPlay.setAttribute("aria-label", hablando ? "Pausar la lectura" : "Escuchar la lectura en voz alta");
+  }
+  function marcar(elemento) {
+    var prev = document.querySelector(".leer.activo");
+    if (prev && prev !== elemento) prev.classList.remove("activo");
+    if (elemento) { elemento.classList.add("activo"); try { elemento.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) { elemento.scrollIntoView(); } }
+  }
+  function desmarcar() { var prev = document.querySelector(".leer.activo"); if (prev) prev.classList.remove("activo"); }
+  function hablar() {
+    if (!hablando) return;
+    if (idx >= cola.length) { hablando = false; idx = 0; desmarcar(); pintarBoton(); return; }
+    var it = cola[idx]; marcar(it.el);
+    var u = new SpeechSynthesisUtterance(it.texto);
+    u.lang = voz ? voz.lang : "es-ES"; if (voz) u.voice = voz; u.rate = vel; u.pitch = 1;
+    var seguir = function () { if (!hablando) return; idx++; hablar(); };
+    u.onend = seguir;
+    u.onerror = function (e) { if (e && (e.error === "interrupted" || e.error === "canceled")) return; seguir(); };
+    window.speechSynthesis.speak(u);
+  }
+  function empezar() { window.speechSynthesis.cancel(); hablando = true; pintarBoton(); hablar(); }
+  function pausar() { hablando = false; window.speechSynthesis.cancel(); pintarBoton(); }
+
+  function cargarVoces() {
+    var todas = window.speechSynthesis.getVoices() || [];
+    var es = todas.filter(function (v) { return /^es([-_]|$)/i.test(v.lang); });
+    var pref = function (v) {
+      var s = 0, n = (v.name + " " + v.lang);
+      if (/es[-_](MX|US|419)/i.test(v.lang)) s += 4; else if (/es[-_]ES/i.test(v.lang)) s += 2;
+      if (/natural|neural|premium|enhanced|mejorad|siri/i.test(n)) s += 5;
+      if (/google/i.test(n)) s += 2;
+      if (v.localService === false) s += 1;
+      return s;
+    };
+    es.sort(function (a, b) { return pref(b) - pref(a); });
+    var guardada = null; try { guardada = localStorage.getItem("voz"); } catch (e) {}
+    selVoz.textContent = "";
+    if (!es.length) { selVoz.appendChild(el("option", null, "Voz del teléfono")); voz = null; return; }
+    es.forEach(function (v, i) { var o = el("option", null, v.name + " (" + v.lang + ")"); o.value = String(i); selVoz.appendChild(o); });
+    var elegida = 0;
+    if (guardada) es.forEach(function (v, i) { if (v.name === guardada) elegida = i; });
+    selVoz.value = String(elegida); voz = es[elegida];
+    selVoz.onchange = function () { voz = es[Number(selVoz.value)]; try { localStorage.setItem("voz", voz.name); } catch (e) {} if (hablando) empezar(); };
+  }
+  function iniciarReproductor() {
+    var rep = document.getElementById("reproductor"); rep.hidden = false;
+    btnPlay = document.getElementById("btnPlay"); selVoz = document.getElementById("selVoz"); selVel = document.getElementById("selVel");
+    if (!soporte) { btnPlay.style.display = "none"; document.getElementById("sinVoz").hidden = false; document.getElementById("btnAjustes").style.flex = "1"; }
+    else {
+      pintarBoton();
+      btnPlay.addEventListener("click", function () { if (hablando) pausar(); else empezar(); });
+      cargarVoces();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) window.speechSynthesis.onvoiceschanged = cargarVoces;
+      selVel.onchange = function () { vel = Number(selVel.value); if (hablando) empezar(); };
+      window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+    }
+    var aj = document.getElementById("ajustes"), ba = document.getElementById("btnAjustes");
+    ba.addEventListener("click", function () { var ab = aj.classList.toggle("abierto"); ba.setAttribute("aria-expanded", String(ab)); });
+    var tam = 19; try { tam = Number(localStorage.getItem("tam")) || 19; } catch (e) {}
+    function poner(n) { tam = Math.max(16, Math.min(30, n)); document.documentElement.style.setProperty("--fs", tam + "px"); try { localStorage.setItem("tam", String(tam)); } catch (e) {} }
+    poner(tam);
+    document.getElementById("mas").onclick = function () { poner(tam + 2); };
+    document.getElementById("menos").onclick = function () { poner(tam - 2); };
+  }
+
+  /* ---------- Cargar la lectura ---------- */
+  var id = new URLSearchParams(location.search).get("id") || "";
+  function aviso(msg) { app.textContent = ""; app.appendChild(el("div", "aviso", msg)); }
+  if (!/^[0-9a-f-]{36}$/i.test(id)) { aviso("Este enlace no es válido. Abre el enlace que viene en tu PDF o en tu correo."); return; }
+  fetch(API + "?id=" + encodeURIComponent(id))
+    .then(function (r) { if (r.status === 410) throw new Error("vencido"); if (!r.ok) throw new Error("no"); return r.json(); })
+    .then(construir)
+    .catch(function (e) {
+      aviso(e.message === "vencido" ? "Este enlace ya venció. Escríbele a José por WhatsApp si necesitas tu lectura de nuevo." : "No encontramos tu lectura. Revisa que el enlace esté completo o escríbele a José por WhatsApp.");
+    });
+})();
+</script>
+</body>
+</html>
