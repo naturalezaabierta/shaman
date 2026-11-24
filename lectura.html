@@ -124,9 +124,10 @@
       </label>
       <label>Velocidad
         <select id="selVel">
-          <option value="0.85">Lenta</option>
-          <option value="1" selected>Normal</option>
-          <option value="1.15">Rápida</option>
+          <option value="0.9">Lenta</option>
+          <option value="1">Normal</option>
+          <option value="1.12" selected>Un poco rápida</option>
+          <option value="1.3">Rápida</option>
         </select>
       </label>
       <div class="tam">
@@ -152,7 +153,7 @@
 
   var app = document.getElementById("app");
   var cola = [];            // fragmentos que se leen en voz alta: { el, texto }
-  var idx = 0, hablando = false, voz = null, vel = 1;
+  var idx = 0, hablando = false, voz = null, vel = 1.12;
   var soporte = ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window);
 
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
@@ -332,7 +333,7 @@
     if (idx >= cola.length) { hablando = false; idx = 0; desmarcar(); pintarBoton(); return; }
     var it = cola[idx]; marcar(it.el);
     var u = new SpeechSynthesisUtterance(it.texto);
-    u.lang = voz ? voz.lang : "es-ES"; if (voz) u.voice = voz; u.rate = vel; u.pitch = 1;
+    u.lang = voz ? voz.lang : "es-ES"; if (voz) u.voice = voz; u.rate = vel; u.pitch = (voz && esHombre(voz)) ? 1 : 0.8;
     var seguir = function () { if (!hablando) return; idx++; hablar(); };
     u.onend = seguir;
     u.onerror = function (e) { if (e && (e.error === "interrupted" || e.error === "canceled")) return; seguir(); };
@@ -341,11 +342,16 @@
   function empezar() { window.speechSynthesis.cancel(); hablando = true; pintarBoton(); hablar(); }
   function pausar() { hablando = false; window.speechSynthesis.cancel(); pintarBoton(); }
 
+  var NOMBRES_H = /jorge|juan|diego|carlos|pablo|ra[uú]l|[aá]lvaro|enrique|miguel|andr[eé]s|alberto|antonio|sergio|ricardo|emilio|gonzalo|jaime|luis|pedro|rodrigo|male|masculin|hombre|david|daniel|eduardo|fernando|francisco|javier|mateo|santiago|tomas|tom[aá]s/i;
+  var NOMBRES_M = /m[oó]nica|paulina|helena|laura|luc[ií]a|sabina|marisol|francisca|female|femenin|mujer|paloma|esperanza|ang[eé]lica|carmen|elena|mar[ií]a|sof[ií]a|valentina|isabela|camila|marta|in[eé]s|dalia|elvira|salom[eé]|catalina|lupe|soledad|rosa|ana\b/i;
+  function esHombre(v) { return NOMBRES_H.test(v.name) && !NOMBRES_M.test(v.name); }
+  function esMujer(v) { return NOMBRES_M.test(v.name); }
   function cargarVoces() {
     var todas = window.speechSynthesis.getVoices() || [];
     var es = todas.filter(function (v) { return /^es([-_]|$)/i.test(v.lang); });
     var pref = function (v) {
       var s = 0, n = (v.name + " " + v.lang);
+      if (esHombre(v)) s += 12; else if (esMujer(v)) s -= 6;
       if (/es[-_](MX|US|419)/i.test(v.lang)) s += 4; else if (/es[-_]ES/i.test(v.lang)) s += 2;
       if (/natural|neural|premium|enhanced|mejorad|siri/i.test(n)) s += 5;
       if (/google/i.test(n)) s += 2;
@@ -356,7 +362,7 @@
     var guardada = null; try { guardada = localStorage.getItem("voz"); } catch (e) {}
     selVoz.textContent = "";
     if (!es.length) { selVoz.appendChild(el("option", null, "Voz del teléfono")); voz = null; return; }
-    es.forEach(function (v, i) { var o = el("option", null, v.name + " (" + v.lang + ")"); o.value = String(i); selVoz.appendChild(o); });
+    es.forEach(function (v, i) { var o = el("option", null, v.name + " (" + v.lang + ")" + (esHombre(v) ? " - voz de hombre" : "")); o.value = String(i); selVoz.appendChild(o); });
     var elegida = 0;
     if (guardada) es.forEach(function (v, i) { if (v.name === guardada) elegida = i; });
     selVoz.value = String(elegida); voz = es[elegida];
