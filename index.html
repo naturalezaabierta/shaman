@@ -370,5 +370,43 @@ function final(){
 $('otra2').onclick=()=>location.reload();
 cargar();
 </script>
+<!-- TARJETA DEL LIBRO (de momento sin venta) -->
+<style>
+  .libro-card{margin:18px 0 0;padding:20px 18px;border:1px solid #B28A43;border-radius:16px;background:#F4EBDD;text-align:center;font-family:inherit}
+  .libro-card .lib-sello{display:inline-block;font-size:.8rem;font-weight:700;color:#fff;background:#85652F;border-radius:999px;padding:3px 12px;margin-bottom:10px}
+  .libro-card h3{margin:4px 0;font-size:1.4rem;line-height:1.2;color:#3A2F27}
+  .libro-card .lib-sub{margin:0 0 10px;font-style:italic;color:#51443A}
+  .libro-card .lib-desc{margin:0 0 12px;color:#302B28;line-height:1.5}
+  .libro-card .lib-precio{font-size:1.7rem;font-weight:700;color:#85652F;margin:0 0 12px}
+  .libro-card button{width:100%;padding:14px;border-radius:12px;border:1px solid #85652F;background:#E6DCCB;color:#85652F;font-weight:700;font-size:1rem;cursor:not-allowed}
+</style>
+<script>
+(function () {
+  var SELLO = "Libro en PDF";
+  var TITULO = "69 Rituales de Alto Impacto";
+  var SUBTITULO = "Hechizos e invocaciones básicas de Soy Shaman";
+  var DESC = "69 rituales de alto impacto para trabajar los problemas que se repiten en tu vida. Rituales guiados, paso a paso.";
+  var PRECIO = "$3.99";
+  var BOTON = "Muy pronto";
+
+  function poner() {
+    if (document.getElementById("libroCard")) return;
+    var h = [].slice.call(document.querySelectorAll("h1,h2,h3")).filter(function (x) { return /Elige tu consulta/i.test(x.textContent); })[0];
+    if (!h) return;
+    var cont = h.closest("section") || h.parentElement;
+    var d = document.createElement("div");
+    d.id = "libroCard"; d.className = "libro-card";
+    function add(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; e.textContent = txt; d.appendChild(e); return e; }
+    add("span", "lib-sello", SELLO);
+    add("h3", "", TITULO);
+    add("p", "lib-sub", SUBTITULO);
+    add("p", "lib-desc", DESC);
+    add("p", "lib-precio", PRECIO);
+    var b = add("button", "", BOTON); b.type = "button"; b.disabled = true;
+    cont.appendChild(d);
+  }
+  poner();
+})();
+</script>
 </body>
 </html>
