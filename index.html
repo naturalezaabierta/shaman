@@ -6,8 +6,8 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="SOY SHAMAN | Consulta de tarot y numerología">
 <meta property="og:description" content="Cuéntanos qué necesitas saber. Tu lectura personal llega a tu correo en PDF.">
-<meta property="og:image" content="https://valentinanaturalezaabierta-pixel.github.io/consultas/logo-soy-shaman.jpg">
-<meta property="og:url" content="https://valentinanaturalezaabierta-pixel.github.io/consultas/">
+<meta property="og:image" content="https://shaman.naturalezaabierta.com/logo-soy-shaman.jpg">
+<meta property="og:url" content="https://shaman.naturalezaabierta.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Consulta de tarot y numerología. Tu lectura personal llega a tu correo en PDF.">
 <title>SOY SHAMAN | Consultas espirituales</title>
@@ -92,6 +92,14 @@ a.btn{text-align:center;text-decoration:none}
 .datos{background:rgba(5,9,15,.82);border:1px dashed rgba(39,197,197,.35);border-radius:13px;padding:12px 14px;margin-top:8px;display:none}
 .datos.on{display:block}.dato{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 0;word-break:break-word}.dato button{flex:none;background:#1b2a34;color:var(--gold-hi);border:1px solid rgba(39,197,197,.35);border-radius:9px;padding:9px 14px;font:inherit;font-size:1rem;cursor:pointer}
 .hecho{text-align:center;padding-top:12px}.hecho .logo-wrap{margin-bottom:24px}
+.libro-card{margin:6px 0 0;padding:22px 18px;border:1px solid rgba(137,85,201,.55);border-radius:var(--radius);background:linear-gradient(145deg,#171433,#0b111b);text-align:center}
+.libro-card .sello{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.04em;color:#09101a;background:var(--teal);border-radius:999px;padding:3px 14px;margin-bottom:10px}
+.libro-card h3{margin:4px 0 8px;font:700 1.25rem/1.3 'Montserrat',system-ui,sans-serif;color:var(--gold-hi)}
+.libro-card p{margin:0 0 12px;color:var(--muted);font-size:.95rem;line-height:1.55}
+.libro-card .pl{font-weight:800;font-size:1.5rem;color:var(--gold-hi)}
+.libro-card button{width:100%;min-height:52px;border-radius:14px;border:1px solid rgba(217,169,79,.4);background:transparent;color:var(--gold-hi);font:600 1rem 'Montserrat',system-ui,sans-serif;cursor:not-allowed}
+.libro-card button.on{cursor:pointer;background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#1b1206;border-color:#f3d28a;font-weight:700}
+.enlace-libro{word-break:break-all}
 .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
 [hidden]{display:none!important}
 @media(min-width:600px){main{padding-top:38px}.opcion{padding:20px 22px}}
@@ -117,6 +125,13 @@ a.btn{text-align:center;text-decoration:none}
   <h2 id="t1" tabindex="-1">Elige tu consulta</h2>
   <div class="aviso" id="aviso1"></div>
   <div id="opciones"><p class="ayuda">Cargando opciones…</p></div>
+  <div class="libro-card" id="libroCard" hidden>
+    <span class="sello">Libro en PDF</span>
+    <h3 id="libroTit">Libro</h3>
+    <p id="libroDesc"></p>
+    <p class="pl" id="libroPrecio" hidden></p>
+    <button type="button" id="libroBtn" disabled>Muy pronto</button>
+  </div>
 </section>
 
 <!-- PASO 2 -->
@@ -125,10 +140,11 @@ a.btn{text-align:center;text-decoration:none}
   <div class="hp"><label>Web <input type="text" id="web" tabindex="-1" autocomplete="off"></label></div>
   <label for="nombre">Tu nombre completo</label>
   <input type="text" id="nombre" autocomplete="name">
-  <label for="email">Correo donde recibirás tu PDF</label>
+  <label for="email" id="lblEmail">Correo donde recibirás tu PDF</label>
   <input type="email" id="email" autocomplete="email" inputmode="email">
   <label for="whatsapp">WhatsApp (opcional)</label>
   <input type="tel" id="whatsapp" autocomplete="tel" inputmode="tel">
+  <div id="bloqueInforme">
   <label for="nac">Tu fecha de nacimiento</label>
   <input type="date" id="nac" max="">
 
@@ -143,6 +159,7 @@ a.btn{text-align:center;text-decoration:none}
     <input type="date" id="oNac" max="">
   </div>
 
+  </div>
   <div id="preguntas"></div>
   <div class="err" id="err2" role="alert"></div>
   <p class="legal">Usamos tus datos solo para preparar tu consulta. Es una guía de orientación espiritual y no sustituye la atención de profesionales de la salud.</p>
@@ -190,7 +207,11 @@ a.btn{text-align:center;text-decoration:none}
   <div class="logo-wrap"><img class="logo" src="logo-soy-shaman.jpg" width="600" height="600" alt="Logo SOY SHAMAN"></div>
   <h2 id="t4" tabindex="-1">Tu solicitud fue recibida</h2>
   <p id="msgFinal"></p>
-  <p class="ayuda">Revisamos tu pago personalmente. Desde que lo confirmamos, tu informe tarda entre 30 y 45 minutos en llegar. Revisa también tu carpeta de spam.</p>
+  <p class="ayuda" id="ayudaInforme">Revisamos tu pago personalmente. Desde que lo confirmamos, tu informe tarda entre 30 y 45 minutos en llegar. Revisa también tu carpeta de spam.</p>
+  <div id="bloqueLibro" hidden>
+    <p class="ayuda">Revisamos tu pago personalmente. Apenas lo confirmemos podrás descargar tu libro desde tu página de descarga (y te llegará el enlace por correo). Guárdala:</p>
+    <a class="btn" id="linkLibro" href="#">Abrir mi página de descarga</a>
+  </div>
   <p class="legal">Guía de orientación espiritual; no sustituye la atención de profesionales de la salud.</p>
   <button class="btn sec" id="otra2">Hacer otra consulta</button>
 </section>
@@ -231,14 +252,14 @@ async function cargar(){
     const r=await fetch(SB+'/rest/v1/config_consultas?select=*&order=orden',{headers:H});
     if(!r.ok)throw 0;
     S.cfg=await r.json();
-    pintarOpciones();
+    pintarOpciones();pintarLibro();
   }catch(e){
     $('opciones').innerHTML='<p class="err">No pudimos cargar las opciones. Recarga la página en un momento.</p>';
   }
 }
 function pintarOpciones(){
   const box=$('opciones');box.innerHTML='';
-  S.cfg.forEach(o=>{
+  S.cfg.filter(o=>o.tipo!=='libro').forEach(o=>{
     const b=document.createElement('button');
     b.type='button';b.className='opcion';b.disabled=!o.activo;
     const bs=bsDe(o.precio_usd);
@@ -247,8 +268,21 @@ function pintarOpciones(){
     box.appendChild(b);
   });
 }
+function pintarLibro(){
+  const o=S.cfg.find(x=>x.tipo==='libro');
+  $('libroCard').hidden=!o;
+  if(!o)return;
+  $('libroTit').textContent=o.nombre;$('libroDesc').textContent=o.descripcion||'';
+  const b=$('libroBtn'),ok=o.activo&&Number(o.precio_usd)>0;
+  if(ok){const bs=bsDe(o.precio_usd);$('libroPrecio').textContent='$'+Number(o.precio_usd)+(bs?' · ≈ Bs. '+fmtBs(bs):'');$('libroPrecio').hidden=false;b.textContent='Comprar el libro';b.disabled=false;b.className='on';b.onclick=()=>elegir(o)}
+  else{$('libroPrecio').hidden=true;b.textContent='Muy pronto';b.disabled=true;b.className='';b.onclick=null}
+}
 function elegir(o){
   S.opt=o;
+  const lib=o.tipo==='libro';
+  $('bloqueInforme').hidden=lib;
+  $('t2').textContent=lib?'Tus datos':'Tus datos y tus preguntas';
+  $('lblEmail').textContent=lib?'Correo donde recibirás tu libro':'Correo donde recibirás tu PDF';
   if(o.tipo==='whatsapp'){
     $('resumenW').textContent=o.nombre;
     const bs=bsDe(o.precio_usd);
@@ -280,9 +314,11 @@ $('sig2').onclick=()=>{
   const v=id=>$(id).value.trim();
   if(v('nombre').length<2)return fallo(e,'Escribe tu nombre completo.');
   if(!/^\S+@\S+\.\S+$/.test(v('email')))return fallo(e,'Revisa tu correo: ahí enviaremos tu PDF.');
-  if(!$('nac').value)return fallo(e,'Escribe tu fecha de nacimiento.');
-  if($('otraChk').checked&&(v('oNombre').length<2||v('oPar').length<2))return fallo(e,'Escribe el nombre de la otra persona y qué parentesco tiene contigo.');
-  if(v('q1').length<5)return fallo(e,'Escribe al menos tu primera pregunta.');
+  if(S.opt.tipo!=='libro'){
+    if(!$('nac').value)return fallo(e,'Escribe tu fecha de nacimiento.');
+    if($('otraChk').checked&&(v('oNombre').length<2||v('oPar').length<2))return fallo(e,'Escribe el nombre de la otra persona y qué parentesco tiene contigo.');
+    if(v('q1').length<5)return fallo(e,'Escribe al menos tu primera pregunta.');
+  }
   pintarPago();ir(3);
 };
 function fallo(el,m){el.textContent=m;return false}
@@ -337,16 +373,18 @@ $('enviar').onclick=async()=>{
     const v=x=>$(x).value.trim();
     const preguntas=[];
     for(let i=1;i<=S.opt.max_preguntas;i++){const q=v('q'+i);if(q)preguntas.push(q)}
-    const otra=$('otraChk').checked;
+    const lib=S.opt.tipo==='libro';
+    const otra=!lib&&$('otraChk').checked;
     const row={
       id_solicitud:id,servicio:S.opt.id,nombre:v('nombre'),email:v('email'),
-      whatsapp:v('whatsapp')||null,fecha_nacimiento:$('nac').value,
+      whatsapp:v('whatsapp')||null,fecha_nacimiento:lib?null:$('nac').value,
       otra_persona_nombre:otra?v('oNombre'):null,
       otra_persona_parentesco:otra?v('oPar'):null,
       otra_persona_fecha_nacimiento:otra&&$('oNac').value?$('oNac').value:null,
       preguntas,metodo_pago:S.metodo.id,referencia_pago:v('ref')||null,
       monto_bs:S.metodo.bs?parseFloat($('bs').value):null,captura_url:path
     };
+    S.ultimoId=id;
     const r=await fetch(SB+'/rest/v1/solicitudes_tarot',{method:'POST',headers:{...H,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(row)});
     if(!r.ok){
       const t=await r.text();
@@ -364,49 +402,16 @@ $('enviar').onclick=async()=>{
 };
 function final(){
   const n=$('nombre').value.trim().split(/\s+/)[0];
-  $('msgFinal').textContent=n+', recibimos tu pago y tus preguntas. Tu informe en PDF llegará a '+$('email').value.trim()+'.';
+  const lib=S.opt&&S.opt.tipo==='libro';
+  $('ayudaInforme').hidden=lib;$('bloqueLibro').hidden=!lib;
+  if(lib){
+    $('msgFinal').textContent=n+', recibimos tu pago. Tu libro estará disponible apenas lo verifiquemos.';
+    $('linkLibro').href='descarga.html?id='+(S.ultimoId||'');
+  }else $('msgFinal').textContent=n+', recibimos tu pago y tus preguntas. Tu informe en PDF llegará a '+$('email').value.trim()+'.';
   ir(4);
 }
 $('otra2').onclick=()=>location.reload();
 cargar();
-</script>
-<!-- TARJETA DEL LIBRO (de momento sin venta) -->
-<style>
-  .libro-card{margin:18px 0 0;padding:20px 18px;border:1px solid #B28A43;border-radius:16px;background:#F4EBDD;text-align:center;font-family:inherit}
-  .libro-card .lib-sello{display:inline-block;font-size:.8rem;font-weight:700;color:#fff;background:#85652F;border-radius:999px;padding:3px 12px;margin-bottom:10px}
-  .libro-card h3{margin:4px 0;font-size:1.4rem;line-height:1.2;color:#3A2F27}
-  .libro-card .lib-sub{margin:0 0 10px;font-style:italic;color:#51443A}
-  .libro-card .lib-desc{margin:0 0 12px;color:#302B28;line-height:1.5}
-  .libro-card .lib-precio{font-size:1.7rem;font-weight:700;color:#85652F;margin:0 0 12px}
-  .libro-card button{width:100%;padding:14px;border-radius:12px;border:1px solid #85652F;background:#E6DCCB;color:#85652F;font-weight:700;font-size:1rem;cursor:not-allowed}
-</style>
-<script>
-(function () {
-  var SELLO = "Libro en PDF";
-  var TITULO = "69 Rituales de Alto Impacto";
-  var SUBTITULO = "Hechizos e invocaciones básicas de Soy Shaman";
-  var DESC = "69 rituales de alto impacto para trabajar los problemas que se repiten en tu vida. Rituales guiados, paso a paso.";
-  var PRECIO = "$3.99";
-  var BOTON = "Muy pronto";
-
-  function poner() {
-    if (document.getElementById("libroCard")) return;
-    var h = [].slice.call(document.querySelectorAll("h1,h2,h3")).filter(function (x) { return /Elige tu consulta/i.test(x.textContent); })[0];
-    if (!h) return;
-    var cont = h.closest("section") || h.parentElement;
-    var d = document.createElement("div");
-    d.id = "libroCard"; d.className = "libro-card";
-    function add(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; e.textContent = txt; d.appendChild(e); return e; }
-    add("span", "lib-sello", SELLO);
-    add("h3", "", TITULO);
-    add("p", "lib-sub", SUBTITULO);
-    add("p", "lib-desc", DESC);
-    add("p", "lib-precio", PRECIO);
-    var b = add("button", "", BOTON); b.type = "button"; b.disabled = true;
-    cont.appendChild(d);
-  }
-  poner();
-})();
 </script>
 </body>
 </html>

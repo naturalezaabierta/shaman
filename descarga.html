@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tu libro | SOY SHAMAN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--oro:#d9a94f;--oro-hi:#f5d58a;--rosa:#27c5c5;--perla:#f5f0e5;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--perla);font:16px/1.7 'Montserrat',system-ui,sans-serif;background:radial-gradient(ellipse at 50% -12%,rgba(39,197,197,.14),transparent 36%),radial-gradient(ellipse at 100% 34%,rgba(137,85,201,.12),transparent 34%),#05070b}
+main{width:min(100% - 28px,560px);margin:0 auto;padding:34px 0 60px;text-align:center}
+.logo-wrap{width:clamp(150px,44vw,200px);aspect-ratio:1;margin:0 auto 20px;padding:5px;border-radius:50%;background:linear-gradient(145deg,#f5d58a,#80551d 42%,#27c5c5 72%,#8955c9);box-shadow:0 0 34px rgba(39,197,197,.16),0 0 52px rgba(137,85,201,.12)}
+.logo{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.panel{padding:clamp(22px,5vw,34px);border-radius:28px;border:1px solid rgba(217,169,79,.28);background:linear-gradient(145deg,#0d1420,#090d16);box-shadow:0 22px 60px rgba(0,0,0,.3)}
+h1{font-size:clamp(1.4rem,5.6vw,1.8rem);line-height:1.25;margin:0 0 14px;color:var(--oro-hi)}
+p{margin:0 0 14px;color:#e6e3f0}
+.libro{font-weight:600;color:var(--oro-hi)}
+.btn{display:block;width:100%;min-height:58px;border:0;border-radius:15px;padding:15px 20px;font:700 1.05rem 'Montserrat',system-ui,sans-serif;cursor:pointer;margin-top:18px;background:linear-gradient(135deg,#f5d58a,#d9a94f 58%,#b07f2c);color:#1b1206;box-shadow:0 10px 26px rgba(217,169,79,.2)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.sec{background:rgba(255,255,255,.045);color:var(--oro-hi);border:1px solid rgba(248,231,189,.45);box-shadow:none;font-weight:600;text-decoration:none;display:block;text-align:center;line-height:1.4}
+.btn:focus-visible{outline:3px solid var(--rosa);outline-offset:2px}
+.err{color:#ffb4ab;min-height:1.2em;margin-top:12px}
+.nota{font-size:.82rem;color:#c8cce0;margin-top:18px}
+.punto{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--oro);margin-right:8px;animation:pul 1.4s infinite}
+@keyframes pul{50%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.punto{animation:none}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo-wrap"><img class="logo" src="logo-soy-shaman.jpg" width="600" height="600" alt="Logo SOY SHAMAN"></div>
+  <div class="panel" aria-live="polite">
+    <h1 id="tit">Revisando tu compra…</h1>
+    <p class="libro" id="libro"></p>
+    <p id="msg"></p>
+    <button class="btn" id="bajar" hidden>Descargar mi libro</button>
+    <a class="btn sec" id="wa" href="#" target="_blank" rel="noopener" hidden>Escribirnos por WhatsApp</a>
+    <div class="err" id="err" role="alert"></div>
+    <p class="nota" id="nota" hidden>Guarda esta página: el botón es solo tuyo y puedes volver a usarlo cuando quieras. Si el libro no se abre, mantén presionado el botón o revisa tu carpeta de descargas.</p>
+  </div>
+</main>
+<script>
+(function(){
+"use strict";
+var API="https://fxmgydfhuznxrxsggqlg.supabase.co/functions/v1/descarga-libro";
+var WA="https://wa.me/584160650749?text="+encodeURIComponent("Hola, tengo una duda con la compra de mi libro.");
+var $=function(i){return document.getElementById(i)};
+var id=new URLSearchParams(location.search).get("id")||"";
+var timer=null;
+function pantalla(t,m,o){
+  $("tit").textContent=t;$("msg").textContent=m;
+  $("bajar").hidden=!(o&&o.bajar);$("wa").hidden=!(o&&o.wa);$("nota").hidden=!(o&&o.bajar);
+  if(o&&o.wa)$("wa").href=WA;
+}
+function revisar(){
+  fetch(API+"?id="+encodeURIComponent(id)).then(function(r){
+    if(r.status===404||r.status===400)throw new Error("nf");
+    if(!r.ok)throw new Error("x");
+    return r.json();
+  }).then(function(d){
+    $("libro").textContent=d.libro||"";
+    if(d.estado==="listo"){clearInterval(timer);pantalla(d.nombre+", tu pago fue confirmado","Ya puedes descargar tu libro. Gracias por confiar en este camino.",{bajar:true})}
+    else if(d.estado==="rechazado"){clearInterval(timer);pantalla("No pudimos verificar tu pago","A veces pasa por un error en el monto o en la referencia. Escríbenos con tu captura y lo resolvemos enseguida.",{wa:true})}
+    else{pantalla(d.nombre+", estamos verificando tu pago","Apenas lo confirmemos, aquí aparecerá el botón de descarga y te llegará el enlace por correo. Puedes dejar esta página abierta.",{});$("tit").insertAdjacentHTML("afterbegin",'<span class="punto" aria-hidden="true"></span>')}
+  }).catch(function(e){
+    clearInterval(timer);
+    pantalla(e.message==="nf"?"No encontramos esta compra":"No pudimos revisar tu compra","Revisa que el enlace esté completo o escríbenos por WhatsApp.",{wa:true});
+  });
+}
+$("bajar").onclick=function(){
+  var b=$("bajar");b.disabled=true;$("err").textContent="";
+  fetch(API+"?id="+encodeURIComponent(id)+"&bajar=1").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    if(!d.url)throw 0;location.href=d.url;
+  }).catch(function(){$("err").textContent="No pudimos preparar la descarga. Intenta de nuevo en un minuto o escríbenos por WhatsApp."}).then(function(){b.disabled=false});
+};
+if(!/^[0-9a-f-]{36}$/i.test(id)){pantalla("Enlace no válido","Abre el enlace que viene en tu correo o en la pantalla de tu compra.",{wa:true})}
+else{revisar();timer=setInterval(revisar,20000)}
+})();
+</script>
+</body>
+</html>

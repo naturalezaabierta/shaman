@@ -75,7 +75,7 @@ const SB='https://fxmgydfhuznxrxsggqlg.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4bWd5ZGZodXpueHJ4c2dncWxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzU2MzIsImV4cCI6MjExMDI1MTYzMn0.s1N-Zq4Q6euOw5ZdP2lN-9FmhQT1TLtEIQWPDJLryVs';
 const sb=supabase.createClient(SB,KEY);
 const $=id=>document.getElementById(id);
-const NOM={sencilla:'Consulta sencilla',estudio:'Estudio de tarot y numerología',personal:'Consulta personal'};
+const NOM={sencilla:'Consulta sencilla',estudio:'Estudio de tarot y numerología',personal:'Consulta personal',libro:'Libro de SOY SHAMAN'};
 let datos=[];
 
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
@@ -137,7 +137,7 @@ function tarjeta(d){
   c.appendChild(sm);
   if(d.monto_bs)c.appendChild(el('div','fila','Monto en Bs: '+Number(d.monto_bs).toLocaleString('es-VE')));
   c.appendChild(el('div','fila',d.email+(d.whatsapp?' · '+d.whatsapp:'')));
-  c.appendChild(el('div','fila','Nació: '+dnac(d.fecha_nacimiento)));
+  if(d.fecha_nacimiento)c.appendChild(el('div','fila','Nació: '+dnac(d.fecha_nacimiento)));
   if(d.otra_persona_nombre)c.appendChild(el('div','fila','Otra persona: '+d.otra_persona_nombre+' ('+(d.otra_persona_parentesco||'')+') · nació: '+dnac(d.otra_persona_fecha_nacimiento)));
   c.appendChild(el('div','fila','Pago: '+(d.metodo_pago||'—')+(d.referencia_pago?' · ref. '+d.referencia_pago:'')));
   (d.preguntas||[]).forEach((p,i)=>c.appendChild(el('div','q',(i+1)+'. '+p)));
